@@ -40,7 +40,10 @@ def create_chat(model_type: str = "gpt-3.5-turbo"):
 
 
 # Create images
-def create_images(prompt: str = "A cute baby sea otter"):
+def create_images(prompt: str):
+    if str(prompt).strip() == "":
+        prompt= "A cute baby sea otter"
+
     result = openai.Image.create(
         prompt=prompt,
         n=2,
@@ -56,22 +59,30 @@ def start():
         start()
     return result
 
+def choices(choice):
+    if int(choice) in (1, 2):
+        match choice:
+            case '1':
+                create_chat()
+        
+            case '2':
+                create_images(input("type your prompt: "))
+        
+            # case _:
+            #     print("Wrong choice 🤣 !!")
+
+        choices(start())
+
+    else:
+        print("Wrong choice 🤣 !!")
+        if str(input("Do you want finish? \nY\nN \n\nanswer: ")).lower() == 'y':
+            print("Bye")
+        else: 
+            choices(start())
+
 
 choice = start()
-if int(choice) in (1, 2):
-    match choice:
-        case '1':
-            create_chat()
-    
-        case '2':
-            create_images(input("type your prompt: "))
-    
-        # case _:
-        #     print("Wrong choice 🤣 !!")
+choices(choice)
 
-    start()
-
-else:
-    print("Wrong choice 🤣 !!")
-    start()
+# A cute baby sea otter cyberpunk
 
